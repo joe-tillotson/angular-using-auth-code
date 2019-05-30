@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://bitbucket.org/devinator/angular-material-tutorial.git"
+    "url": "git://github.com/joe-tillotson/angular-using-auth-code.git"
   },
   "scripts": {
     "ng": "ng",
