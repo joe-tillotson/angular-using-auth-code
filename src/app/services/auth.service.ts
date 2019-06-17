@@ -1,6 +1,9 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import {Router} from '@angular/router';
 import * as auth0 from 'auth0-js';
+
+import { AuthConfigurationInterface } from '../models/auth-config.interface';
+import { AUTH_CONFIG } from '../models/auth-config';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -8,21 +11,22 @@ import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
-  private readonly clientId = 'g7NZP2jWplMuOPYdL5svx1bq9W41tOW6';
   private readonly appRootUrl = 'http://localhost:3100/';
-
-  auth0 = new auth0.WebAuth({
-    clientID: this.clientId,
-    domain: 'devinator.auth0.com',
-    responseType: 'token',
-    redirectUri: this.appRootUrl,
-    scope: 'openid'
-  });
+  private readonly auth0: auth0.WebAuth;
 
   accessToken: string;
   expiresAt: number;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, @Inject(AUTH_CONFIG) private readonly config: AuthConfigurationInterface) {
+    this.auth0 = new auth0.WebAuth({
+      clientID: config.oAuth2Config.clientId,
+      domain: config.oAuth2Config.clientDomain,
+      responseType: 'token id_token',
+      redirectUri: this.appRootUrl,
+      scope: 'openid profile email',
+      audience: config.oAuth2Config.audience
+    });
+  }
 
   login(): void {
     this.auth0.authorize();
@@ -48,7 +52,7 @@ export class AuthService {
 
     this.auth0.logout({
       returnTo: this.appRootUrl,
-      clientID: this.clientId
+      clientID: this.config.oAuth2Config.clientId
     });
   }
 
@@ -56,5 +60,9 @@ export class AuthService {
     // Check whether the current time is past the
     // Access Token's expiry time
     return new Date().getTime() < this.expiresAt;
+  }
+
+  getAccessToken(): string {
+    return this.accessToken || '';
   }
 }

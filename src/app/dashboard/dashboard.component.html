@@ -8,8 +8,8 @@
             <mat-icon>add</mat-icon> Add Post
           </button>
         </div>
-        <div class="blocks">
-          <a button mat-raised-button color="primary" (click)="auth.login()" *ngIf="!auth.isAuthenticated()">
+        <div class="blocks" *ngIf="!auth.isAuthenticated()">
+          <a button mat-raised-button color="primary" (click)="auth.login()">
             <mat-icon>input</mat-icon>Login to Add or Delete Post
           </a>
         </div>
