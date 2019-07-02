@@ -2,7 +2,7 @@
   <mat-sidenav  #sidenav role="navigation">
     <mat-nav-list>
       <a mat-list-item
-         *ngIf="auth.isAuthenticated()"
+         *ngIf="isAuthenticated"
          routerLink="/">
         <mat-icon class="icon">home</mat-icon>
         <span class="label">Home</span>
@@ -13,20 +13,20 @@
         <span class="label">Dashboard</span>
       </a>
       <a  mat-list-item
-          *ngIf="auth.isAuthenticated()"
+          *ngIf="isAuthenticated"
           routerLink="/call-api">
           <mat-icon class="icon">callapi</mat-icon>
           <span class="label">Call API</span>
       </a>
       <a mat-list-item
-         *ngIf="!auth.isAuthenticated()"
-         (click)="auth.login()">
+         *ngIf="!isAuthenticated"
+         (click)="authService.login()">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Login</span>
       </a>
       <a  mat-list-item
-          *ngIf="auth.isAuthenticated()"
-          (click)="auth.logout()" type="button">
+          *ngIf="isAuthenticated"
+          (click)="authService.logout()" type="button">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">LogOut</span>
       </a>
@@ -48,7 +48,7 @@
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
             <a
-              *ngIf="auth.isAuthenticated()"
+              *ngIf="isAuthenticated"
               routerLink="/">
               <mat-icon class="icon">home</mat-icon>
               <span class="label">Home</span>
@@ -63,7 +63,7 @@
           </li>
           <li>
             <a
-              *ngIf="auth.isAuthenticated()"
+              *ngIf="isAuthenticated"
               routerLink="/call-api">
               <mat-icon class="icon">callapi</mat-icon>
               <span class="label">Call API</span>
@@ -71,16 +71,16 @@
           </li>
           <li>
             <a
-              *ngIf="!auth.isAuthenticated()"
-              (click)="auth.login()">
+              *ngIf="!isAuthenticated"
+              (click)="authService.login()">
               <mat-icon class="icon">input</mat-icon>
               <span  class="label">Login</span>
             </a>
           </li>
           <li>
             <a
-              *ngIf="auth.isAuthenticated()"
-              (click)="auth.logout()" type="button">
+              *ngIf="isAuthenticated"
+              (click)="authService.logout()" type="button">
               <mat-icon class="icon">input</mat-icon>
               <span class="label">LogOut</span>
             </a>

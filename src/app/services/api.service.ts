@@ -10,6 +10,7 @@ import { AUTH_CONFIG } from '../models/auth-config';
   providedIn: 'root'
 })
 export class ApiService {
+  accessToken: string = '';
   private readonly apiBaseUrl: string;
   private readonly options: any = {
     headers: new HttpHeaders().set('content-type', 'application/json')
@@ -19,6 +20,9 @@ export class ApiService {
       private readonly authService: AuthService,
       @Inject(AUTH_CONFIG) private readonly config: AuthConfigurationInterface) {
     this.apiBaseUrl = this.config.apiBaseUrl;
+    this.authService.token.subscribe(token => {
+      this.accessToken = token;
+    });
   }
 
   // contrived: at this point no API call is being made, this class is just demonstrates the concept.
@@ -30,7 +34,7 @@ export class ApiService {
   */
   getApiResource(): void {
     console.log('api call being made to: ' + this.apiBaseUrl + '/foo/resource');
-    console.log('with access_token: ' + this.authService.getAccessToken());
+    console.log('with access_token: ' + this.accessToken);
   }
 
   private authenticatedGet(url: string, headers: object): any {

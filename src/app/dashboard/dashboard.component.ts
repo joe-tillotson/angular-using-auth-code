@@ -1,11 +1,12 @@
-import {Component} from '@angular/core';
-import {DataService} from '../services/data.service';
-import {Post} from '../models/post';
+import {Component, OnInit} from '@angular/core';
+import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs';
-import {PostDialogComponent} from '../post-dialog/post-dialog.component';
 import {MatDialog} from '@angular/material';
 
+import {DataService} from '../services/data.service';
+import {Post} from '../models/post';
+import {PostDialogComponent} from '../post-dialog/post-dialog.component';
 import {AuthService} from '../services/auth.service';
 
 @Component({
@@ -14,14 +15,24 @@ import {AuthService} from '../services/auth.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  constructor(private dataService: DataService, public auth: AuthService, public dialog: MatDialog) {
+  isAuthenticated = false;
+  private auth0Client: Auth0Client;
+
+  constructor(private dataService: DataService, public authService: AuthService, public dialog: MatDialog) {
+  }
+
+  async ngOnInit() {
+    this.auth0Client = await this.authService.getAuth0Client();
+    this.authService.loggedIn$.subscribe(value => {
+      this.isAuthenticated = value;
+    });
   }
 
   displayedColumns = ['datePosted', 'title', 'category', 'delete'];
   dataSource = new PostDataSource(this.dataService);
 
   deletePost(id: number): void {
-    if (this.auth.isAuthenticated()) {
+    if (this.isAuthenticated) {
       this.dataService.deletePost(id);
       this.dataSource = new PostDataSource(this.dataService);
     } else {

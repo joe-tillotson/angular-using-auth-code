@@ -1,7 +1,7 @@
 {
   "name": "angular-auth-code-w-pkce",
   "version": "0.9.0",
-  "description": "Angular7 SPA using auth-code with PKCE",
+  "description": "Angular7 SPA using auth-code-with-PKCE oauth2 flow",
   "author": "Joe Tillotson",
   "license": "MIT",
   "repository": {
@@ -32,7 +32,8 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
-    "auth0-js": "^9.10.2",
+    "@auth0/auth0-spa-js": "^1.0.0",
+    "@auth0/angular-jwt": "^2.1.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "rxjs": "~6.3.3",
@@ -44,7 +45,6 @@
     "@angular/cli": "~7.3.9",
     "@angular/compiler-cli": "~7.2.0",
     "@angular/language-service": "~7.2.0",
-    "@types/auth0-js": "^9.10.2",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",

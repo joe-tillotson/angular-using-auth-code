@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { CallApiComponent } from './call-api/call-api.component';
 import { AuthConfiguration, AUTH_CONFIG } from './models/auth-config';
 import { environmentVariables } from '../../src/config/environment.variables';
+import { CallbackComponent } from './callback/callback.component';
 
 const authConfig: AuthConfiguration = new AuthConfiguration( {
   apiBaseUrl: environmentVariables.API_BASE_URL,
@@ -28,13 +30,24 @@ const authConfig: AuthConfiguration = new AuthConfiguration( {
   }
 } );
 
+export function JwtModuleConfigFactory(authService: AuthService): any {
+  const authFactory: any = {
+    whitelistedDomains: [ 'localhost:3000', 'api.myapi.com' ],
+    tokenGetter: function () {
+      return authService.getFreshToken();
+    }
+  };
+  return authFactory;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
     DashboardComponent,
     PostDialogComponent,
-    CallApiComponent
+    CallApiComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +56,14 @@ const authConfig: AuthConfiguration = new AuthConfiguration( {
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+          provide: JWT_OPTIONS,
+          useFactory: JwtModuleConfigFactory,
+          deps: [AuthService]
+      }
+  })
   ],
   providers: [
     DataService,
