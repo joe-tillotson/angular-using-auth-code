@@ -13,14 +13,11 @@ export class CallbackComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   async ngOnInit() {
-    const client = await this.authService.getAuth0Client();
-    const result = await client.handleRedirectCallback();
+    const authClient = await this.authService.getAuth0Client();
+    const authResult = await authClient.handleRedirectCallback();
 
     const targetRoute =
-      result.appState && result.appState.target ? result.appState.target : '';
-
-    // TODO: make sure no other interactions with the auth-service are required here
-    //   for the app to behave properly
+    authResult.appState && authResult.appState.target ? authResult.appState.target : '';
 
     this.router.navigate([targetRoute]);
   }

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material';
@@ -14,15 +13,13 @@ import {AuthService} from '../services/auth.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   isAuthenticated = false;
-  private auth0Client: Auth0Client;
 
   constructor(private dataService: DataService, public authService: AuthService, public dialog: MatDialog) {
   }
 
   async ngOnInit() {
-    this.auth0Client = await this.authService.getAuth0Client();
     this.authService.loggedIn$.subscribe(value => {
       this.isAuthenticated = value;
     });

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 
 import { AuthService } from './services/auth.service';
@@ -10,9 +11,13 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit {
   isAuthenticated = false;
+  userProfile: Observable<any>;
+
   private auth0Client: Auth0Client;
 
-  constructor(public readonly authService: AuthService) { }
+  constructor(public readonly authService: AuthService) {
+    this.userProfile = authService.profile$;
+  }
 
   async ngOnInit() {
     this.auth0Client = await this.authService.getAuth0Client();
@@ -20,6 +25,5 @@ export class AppComponent implements OnInit {
     this.authService.loggedIn$.subscribe(value => {
       this.isAuthenticated = value;
     });
-
   }
 }

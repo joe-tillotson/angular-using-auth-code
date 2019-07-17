@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {AuthService} from '../services/auth.service';
 
@@ -7,8 +7,15 @@ import {AuthService} from '../services/auth.service';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent {
+export class WelcomeComponent implements OnInit {
+  isAuthenticated = false;
 
-  constructor(public auth: AuthService) { }
+  constructor(public authService: AuthService) { }
+
+  async ngOnInit() {
+    this.authService.loggedIn$.subscribe(value => {
+      this.isAuthenticated = value;
+    });
+  }
 
 }

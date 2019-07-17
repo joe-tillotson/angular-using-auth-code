@@ -43,6 +43,7 @@
         <a routerLink="/">
           Material Blog
         </a>
+        <span class="label" *ngIf="(userProfile | async) as p"> - Welcome {{p.nickname}}</span>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">

@@ -20,7 +20,7 @@ export class ApiService {
       private readonly authService: AuthService,
       @Inject(AUTH_CONFIG) private readonly config: AuthConfigurationInterface) {
     this.apiBaseUrl = this.config.apiBaseUrl;
-    this.authService.token.subscribe(token => {
+    this.authService.token$.subscribe(token => {
       this.accessToken = token;
     });
   }
