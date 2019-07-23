@@ -17,9 +17,8 @@ export class AuthService {
   private readonly RESPONSE_TYPE: string = 'token id_token';
   private readonly authConfig: AuthConfigurationInterface;
   private readonly authRouter: Router;
-  private accessToken: string;
+  private accessToken: string = null;
   private auth0Client: Auth0Client;
-  private gettingAuth0Client: boolean = false;
 
   // Create a stream of logged in status to communicate throughout app
   private loggedInSource: BehaviorSubject<boolean>;
@@ -53,7 +52,7 @@ export class AuthService {
     this.loggedIn$ = this.loggedInSource.asObservable().pipe(distinctUntilChanged());
 
     this.userProfileResultSource = new ReplaySubject<any>(1);
-    this.profile$ = this.userProfileResultSource.asObservable();
+    this.profile$ = this.userProfileResultSource.asObservable().pipe(distinctUntilChanged());
 
     this.accessTokenSource = new BehaviorSubject<string>(null);
     this.token$ = this.accessTokenSource.asObservable().pipe(distinctUntilChanged());
@@ -68,44 +67,36 @@ export class AuthService {
   async getAuth0Client(): Promise<Auth0Client> {
     // TODO: question: how/where to specify the responseType and the scope when authenticating?
     // see `interface AuthorizeOptions extends BaseLoginOptions` in global.d.ts
-    // if (!this.auth0Client && !this.gettingAuth0Client) {
+
     if (!this.auth0Client) {
-      
-      this.gettingAuth0Client = true;
       this.auth0Client = await createAuth0Client({
         domain: this.authConfig.oAuth2Config.clientDomain,
         client_id: this.authConfig.oAuth2Config.clientId,
         audience: this.authConfig.oAuth2Config.audience,
         redirect_uri: `${window.location.origin}/callback`
       });
-      this.gettingAuth0Client = false;
+    }
 
-      try {
-        this.accessToken = await this.auth0Client.getTokenSilently();
-        this.loggedInSource.next(await this.auth0Client.isAuthenticated());
+    try {
+      this.accessToken = await this.auth0Client.getTokenSilently();
+      this.accessTokenSource.next(this.accessToken);
 
-        this.loggedInSource.subscribe(async isAuthenticated => {
-          if (isAuthenticated) {
-            this.accessTokenSource.next(this.accessToken);
-            return this.userProfileResultSource.next(await this.auth0Client.getUser());
-          }
+      const isAuthenticated = await this.auth0Client.isAuthenticated();
+      this.loggedInSource.next(isAuthenticated);
 
-          this.accessTokenSource.next('');
-          this.userProfileResultSource.next(null);
-        });
+      if (isAuthenticated) {
+        this.userProfileResultSource.next(await this.auth0Client.getUser());
+      } else {
+        this.accessTokenSource.next(null);
+        this.userProfileResultSource.next(null);
+      }
 
-      } catch {}
-
-      return this.auth0Client;
+    } catch {
+      this.accessTokenSource.next(null);
+      this.userProfileResultSource.next(null);
     }
 
     return this.auth0Client;
-  }
-
-  // TODO: this method blows up the app if called - figure out why?
-  async isAuthenticated(): Promise<boolean> {
-    const client = await this.getAuth0Client();
-    return await client.isAuthenticated();
   }
 
   async login() {
@@ -114,16 +105,17 @@ export class AuthService {
     });
   }
 
-  getFreshToken(): string {
-    // TODO: flesh out
-    return '';
-  }
-
   logout(): void {
     this.auth0Client.logout({
       client_id: this.authConfig.oAuth2Config.clientId,
       returnTo: window.location.origin
     });
+  }
+
+  // TODO: this method blows up the entire browser-app if called - figure out why?
+  async isAuthenticated(): Promise<boolean> {
+    const client = await this.getAuth0Client();
+    return await client.isAuthenticated();
   }
 
 }

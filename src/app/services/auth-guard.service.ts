@@ -23,12 +23,13 @@ export class AuthGuardService implements CanActivate {
     const client = await this.authService.getAuth0Client();
     const isAuthenticated = await client.isAuthenticated();
 
-    // TODO: hmmm, to me it's somewhat distasteful to have lines 27-34 in this class rather than
-    //   calling into authService for these features.  At least change lines 32-35.
     if (isAuthenticated) {
       return true;
     }
 
+    // TODO: hmmm, to me it's somewhat distasteful to have lines 32-35 in this class rather than
+    //   calling into authService for these features.  Idea: call login method on authService
+    //   that accepts optional 'appState' argument
     client.loginWithRedirect({
       redirect_uri: `${window.location.origin}/callback`,
       appState: { target: state.url }

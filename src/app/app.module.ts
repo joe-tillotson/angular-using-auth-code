@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,16 +29,6 @@ const authConfig: AuthConfiguration = new AuthConfiguration( {
   }
 } );
 
-export function JwtModuleConfigFactory(authService: AuthService): any {
-  const authFactory: any = {
-    whitelistedDomains: [ 'localhost:3000', 'api.myapi.com' ],
-    tokenGetter: function () {
-      return authService.getFreshToken();
-    }
-  };
-  return authFactory;
-}
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,14 +45,7 @@ export function JwtModuleConfigFactory(authService: AuthService): any {
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
-    HttpClientModule,
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-          provide: JWT_OPTIONS,
-          useFactory: JwtModuleConfigFactory,
-          deps: [AuthService]
-      }
-  })
+    HttpClientModule
   ],
   providers: [
     DataService,
