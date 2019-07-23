@@ -11,8 +11,12 @@ export class CallApiComponent {
 
   constructor(public apiService: ApiService) { }
 
-  callApi() {
-    const response = this.apiService.getApiResource();
+  async callApi() {
+    const response = await this.apiService.getApiResource();
+
+    if (response) {
+      console.log('Authorizations: ' + JSON.stringify(response));
+    }
   }
 
 }

@@ -18,6 +18,7 @@ import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { CallApiComponent } from './call-api/call-api.component';
 import { AuthConfiguration, AUTH_CONFIG } from './models/auth-config';
 import { environmentVariables } from '../../src/config/environment.variables';
+import { CallbackComponent } from './callback/callback.component';
 
 const authConfig: AuthConfiguration = new AuthConfiguration( {
   apiBaseUrl: environmentVariables.API_BASE_URL,
@@ -34,7 +35,8 @@ const authConfig: AuthConfiguration = new AuthConfiguration( {
     WelcomeComponent,
     DashboardComponent,
     PostDialogComponent,
-    CallApiComponent
+    CallApiComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
