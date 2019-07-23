@@ -8,6 +8,10 @@ This project is still Angular-based and utilizes the Angular Material library fo
 * Improves upon the user experience primarily with regard to authentication
 * Upgrades from Auth0's implementation of the Implicit flow to using Auth0's newest JS SDK, which implements the [Authorization Code w\PKCE] (https://oauth.net/2/pkce/) grant type
 
+## Up-coming improvements
+* Update the AuthService so that >1 simultaneous calls to `getAuth0Client()` will return the same single Promise (currently this results in >1 'clients' which make >1 calls to the authorization service, resulting in >1 access tokens being returned)
+* Use of an HttpInterceptor to automatically renew an access_token (if necessary) and correctly place it in the header of any out-going API calls requiring authorization (currently this is being done in the ApiService class)
+
 # How to run this project
 
 ## Tool Prerequisites
@@ -49,4 +53,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Using Docker
 
-This launch configuration will start up the web service, accessible via port 3100, as well as enable remote debugging, accessible via port 9222. It will also monitor the source code directory for changes, recompiling on the fly and restarting ng serve within the container.
+From the command line, run `npm run compose:up`.
+
+From VSCode use the launch configuration which will start up the web service, accessible via port 3100, as well as enable remote debugging, accessible via port 9222. It will also monitor the source code directory for changes, recompiling on the fly and restarting ng serve within the container.
