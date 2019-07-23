@@ -6,7 +6,7 @@ This project is still Angular-based and utilizes the Angular Material library fo
 * Upgrades to Angular 7
 * Adds more valuable unit tests
 * Improves upon the user experience primarily with regard to authentication
-* Upgrades from Auth0's implementation of the Implicit flow to using Auth0's newest JS SDK, which implements the [Authorization Code w\PKCE] (https://oauth.net/2/pkce/) grant type
+* Upgrades from Auth0's implementation of the Implicit flow to using Auth0's newest JS SDK, which implements the [Authorization Code w\PKCE](https://oauth.net/2/pkce/) grant type
 
 ## Up-coming improvements
 * Update the AuthService so that >1 simultaneous calls to `getAuth0Client()` will return the same single Promise (currently this results in >1 'clients' which make >1 calls to the authorization service, resulting in >1 access tokens being returned)
