@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 
 import {DataService} from '../services/data.service';
 import {Post} from '../models/post';
