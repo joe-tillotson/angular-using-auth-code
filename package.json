@@ -10,11 +10,13 @@
   },
   "scripts": {
     "ng": "ng",
+    "joeupgrade": "ng update @angular/core @angular/cli",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --prod",
     "test": "ng test --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "postinstall": "ngcc",
     "compose:up": "PORT=${PORT:=3100} IMAGE=${npm_package_name} IMAGE_TAG=${npm_package_version} docker-compose up --build",
     "compose:down": "PORT=${PORT:=3100} IMAGE=${npm_package_name} IMAGE_TAG=${npm_package_version} docker-compose down",
     "compose:test": "TIMESTAMP=`date +%s` IMAGE=${npm_package_name} IMAGE_TAG=${npm_package_version} docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit"
