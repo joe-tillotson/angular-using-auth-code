@@ -10,7 +10,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "joeupgrade": "ng update @angular/core @angular/cli",
+    "joeupgrade": "ng update @angular/material",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --prod",
     "test": "ng test --browsers ChromeHeadless",
