@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AuthService } from '../services/auth.service';
 import { AuthServiceMock } from '../services/auth.service.mock';
@@ -6,7 +6,7 @@ import { WelcomeComponent } from './welcome.component';
 
 describe('WelcomeComponent', () => {
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WelcomeComponent ],
       providers: [
