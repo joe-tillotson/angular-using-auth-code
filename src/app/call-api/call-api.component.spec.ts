@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 
 import { CallApiComponent } from './call-api.component';
@@ -8,7 +8,7 @@ import { MaterialModule } from '../material.module';
 
 describe('CallApiComponent', () => {
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CallApiComponent ],
       imports: [

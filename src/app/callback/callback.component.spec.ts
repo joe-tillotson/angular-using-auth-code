@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CallbackComponent } from './callback.component';
@@ -9,7 +9,7 @@ describe('CallbackComponent', () => {
   let component: CallbackComponent;
   let fixture: ComponentFixture<CallbackComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
       declarations: [ CallbackComponent ],

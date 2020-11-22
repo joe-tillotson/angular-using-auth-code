@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
 import { DataService } from '../services/data.service';
@@ -8,7 +8,7 @@ import { MaterialModule } from '../material.module';
 
 describe('DashboardComponent', () => {
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         DashboardComponent

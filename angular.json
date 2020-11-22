@@ -26,8 +26,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -40,7 +39,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -138,5 +136,8 @@
       }
     }
   },
-  "defaultProject": "angular-auth-code-w-pkce"
+  "defaultProject": "angular-auth-code-w-pkce",
+  "cli": {
+    "analytics": "4effc085-d980-4272-962f-c01819f440af"
+  }
 }
